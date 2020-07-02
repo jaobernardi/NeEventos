@@ -7,12 +7,15 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
 public class Main extends JavaPlugin {
     public Map<Player, EventoObj> playersevents = new HashMap<>();
+    public Map<String, EventoObj> events = new HashMap<>();
     private Logger logger = this.getLogger();
 
     @Override
@@ -36,5 +39,7 @@ public class Main extends JavaPlugin {
             this.saveDefaultConfig ();
         }
     }
+
+
 
 }

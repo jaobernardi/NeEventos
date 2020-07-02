@@ -23,9 +23,10 @@ public class EventoObj {
     public Player creator;
     public Location start_location;
     public Boolean open;
+    public Boolean locked = false;
     public int max_players = -1;
     public Map<Player, Location> players = new HashMap<>();
-    public List<UUID> banned = new ArrayList<>();
+    public List<Player> banned = new ArrayList<>();
     public Player winner;
     private final Main plugin;
 
@@ -34,6 +35,7 @@ public class EventoObj {
         this.plugin = plugin;
         this.start_location = start_location;
         this.alias = utils.removeSC(name).replace(" ", "");
+        plugin.events.put(name.toLowerCase(), this);
     }
 
     public EventoObj(Main plugin, Player creator, Location start_location, String name) {
@@ -41,6 +43,7 @@ public class EventoObj {
         this.name = name;
         this.alias = utils.removeSC(name).replace(" ", "");
         this.start_location = start_location;
+        plugin.events.put(name.toLowerCase(), this);
     }
 
 
@@ -60,8 +63,12 @@ public class EventoObj {
         if (this.plugin.playersevents.containsKey(player)){
             this.plugin.playersevents.get(player).quit(player);
         }
+        if (this.locked){
+            chat.sendMessage("&cEste evento já está trancado.", player);
+        }
         this.plugin.playersevents.put(player, this);
         players.put(player, player.getLocation());
+        if (max_players > 0&&players.size()>=max_players){this.locked = true;}
         player.teleport(start_location);
         chat.sendMessage("&a+ "+player.getDisplayName()+" entrou no evento", (Player) players);
     }
@@ -96,6 +103,9 @@ public class EventoObj {
         banned.clear();
 
         return true;
+    }
+    public void ToggleLock(){
+       this.locked = !this.locked;
     }
     public void setWinner(Player player){
         EventWin eventWin = new EventWin(this, player);
