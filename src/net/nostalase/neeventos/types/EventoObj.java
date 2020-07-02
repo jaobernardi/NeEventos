@@ -43,6 +43,7 @@ public class EventoObj {
         this.start_location = start_location;
     }
 
+
     public void ingress(Player player){
         if (players.containsKey(player)) {
             chat.sendMessage("&cVocê já está neste evento.", player);
