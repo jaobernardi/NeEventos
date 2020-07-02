@@ -1,5 +1,6 @@
 package net.nostalase.neeventos.events;
 
+import net.nostalase.neeventos.types.EventoObj;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
@@ -8,8 +9,10 @@ public class EventStart extends Event implements Cancellable {
 
     private static final HandlerList HANDLERS = new HandlerList();
     private boolean isCancelled;
+    private EventoObj evento;
 
-    public EventStart() {
+    public EventStart(EventoObj evento) {
+        this.evento = evento;
         this.isCancelled = false;
     }
 

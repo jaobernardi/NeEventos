@@ -1,24 +1,17 @@
 package net.nostalase.neeventos.events;
 
+import net.nostalase.neeventos.types.EventoObj;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 
-public class EventClose extends Event implements Cancellable {
+public class EventClose extends Event {
 
     private static final HandlerList HANDLERS = new HandlerList();
-    private boolean isCancelled;
+    private EventoObj evento;
 
-    public EventClose() {
-        this.isCancelled = false;
-    }
-
-    public boolean isCancelled() {
-        return this.isCancelled;
-    }
-
-    public void setCancelled(boolean isCancelled) {
-        this.isCancelled = isCancelled;
+    public EventClose(EventoObj evento) {
+        this.evento = evento;
     }
 
     public HandlerList getHandlers() {
