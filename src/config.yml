@@ -1,0 +1,5 @@
+prefix: '&6Eventos&7 '
+events:
+  title: '&6Novo evento aberto!'
+  sub-title: '&6O evento &l$event_name&6 começou &lagora&6!'
+  action-bar: '&6entre no evento pelo comando $event_command'
