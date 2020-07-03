@@ -1,4 +1,4 @@
-prefix: '&6Eventos&7 '
+prefix: '&6Eventos&7 -'
 events:
   title: '&6Novo evento aberto!'
   sub-title: '&6O evento &l$event_name&6 começou &lagora&6!'

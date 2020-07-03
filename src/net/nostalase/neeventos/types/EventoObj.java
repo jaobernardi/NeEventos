@@ -22,7 +22,7 @@ public class EventoObj {
     public String alias;
     public Player creator;
     public Location start_location;
-    public Boolean open;
+    public Boolean open = false;
     public Boolean locked = false;
     public int max_players = -1;
     public Map<Player, Location> players = new HashMap<>();
@@ -52,11 +52,11 @@ public class EventoObj {
             chat.sendMessage("&cVocê já está neste evento.", player);
             return;
         }
-        if (banned.contains(player.getUniqueId())) {
+        if (banned.contains(player)) {
             chat.sendMessage("&cVocê foi banido deste evento.", player);
             return;
         }
-        if (max_players > 0&&players.size()>=max_players){
+        if (max_players >= 0&&players.size()>=max_players){
             chat.sendMessage("&cEste evento está cheio.", player);
             return;
         }
@@ -65,19 +65,27 @@ public class EventoObj {
         }
         if (this.locked){
             chat.sendMessage("&cEste evento já está trancado.", player);
+            return;
+        }
+        if (!this.open){
+            chat.sendMessage("&cEste evento está fechado.", player);
+            return;
         }
         this.plugin.playersevents.put(player, this);
         players.put(player, player.getLocation());
         if (max_players > 0&&players.size()>=max_players){this.locked = true;}
         player.teleport(start_location);
-        chat.sendMessage("&a+ "+player.getDisplayName()+" entrou no evento", (Player) players);
+        for(Player pp: players.keySet())
+            chat.sendMessage("&a+ "+player.getDisplayName()+" entrou no evento", pp);
     }
 
     public void quit(Player player){
         if (players.containsKey(player)){
-            player.removeMetadata("currentevent", this.plugin);
             player.teleport(players.get(player));
-            chat.sendMessage("&aO evento acabou! obrigado por participar :)", player);
+            for(Player pp: players.keySet())
+                chat.sendMessage("&c- "+player.getDisplayName()+" saiu do evento", pp);
+            players.remove(player);
+            chat.sendMessage("&cVocê saiu do evento.", player);
         }
     }
 
@@ -110,7 +118,7 @@ public class EventoObj {
     public void setWinner(Player player){
         EventWin eventWin = new EventWin(this, player);
         this.open = false;
-        player.sendTitle("", "&6&lVocê ganhou o evento", 5, 100, 5);
+        player.sendTitle("", "§6§lVocê ganhou o evento", 10, 100, 5);
         player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 100, 1);
         chat.sendMessage("&6Você ganhou o evento!", player);
         for (Player playera : players.keySet()) {

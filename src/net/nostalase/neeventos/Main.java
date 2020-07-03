@@ -1,6 +1,7 @@
 package net.nostalase.neeventos;
 
 import net.nostalase.neeventos.commands.Evento;
+import net.nostalase.neeventos.listeners.EventListener;
 import net.nostalase.neeventos.types.EventoObj;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
@@ -31,7 +32,9 @@ public class Main extends JavaPlugin {
         // Commands
         logger.info("Registrando comandos.");
         PluginManager manager = getServer().getPluginManager();
+        manager.registerEvents(new EventListener(this), this);
         this.getCommand("eventos").setExecutor(new Evento(this));
+        this.getCommand("eventos").setTabCompleter(new Evento(this));
     }
 
     public void SetupConfig() {

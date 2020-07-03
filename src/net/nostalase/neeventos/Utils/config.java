@@ -6,7 +6,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 public class config {
 
-    private static FileConfiguration config = Bukkit.getServer().getPluginManager().getPlugin("NostalaseCore").getConfig();
+    private static FileConfiguration config = Bukkit.getServer().getPluginManager().getPlugin("NeEventos").getConfig();
 
     public static String getPrefix() {
         return ChatColor.translateAlternateColorCodes('&',

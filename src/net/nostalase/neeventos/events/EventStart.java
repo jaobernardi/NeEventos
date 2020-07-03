@@ -9,7 +9,7 @@ public class EventStart extends Event implements Cancellable {
 
     private static final HandlerList HANDLERS = new HandlerList();
     private boolean isCancelled;
-    private EventoObj evento;
+    public EventoObj evento;
 
     public EventStart(EventoObj evento) {
         this.evento = evento;
