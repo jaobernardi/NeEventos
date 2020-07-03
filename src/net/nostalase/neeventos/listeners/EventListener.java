@@ -32,7 +32,7 @@ public class EventListener implements Listener {
     public void onEventStart(EventStart event){
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.sendTitle( "§6O Um novo evento!", "§7o evento §6"+event.evento.name+"§7 começou", 5, 100, 5);
-            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("§6Entre através de /eventos §l"+event.evento.name));
+            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText("§6Entre através de /eventos §l"+event.evento.alias));
 
         }
     }

@@ -33,17 +33,20 @@ public class EventoObj {
     public EventoObj(Main plugin, Player creator, Location start_location, String name, int max_players) {
         this.max_players = max_players;
         this.plugin = plugin;
+        this.creator = creator;
         this.start_location = start_location;
-        this.alias = utils.removeSC(name).replace(" ", "");
-        plugin.events.put(name.toLowerCase(), this);
+        this.alias = utils.removeSC(name).replace(" ", "").toLowerCase();
+        plugin.events.put(alias, this);
     }
 
     public EventoObj(Main plugin, Player creator, Location start_location, String name) {
         this.plugin = plugin;
         this.name = name;
-        this.alias = utils.removeSC(name).replace(" ", "");
+        this.creator = creator;
+        this.alias = utils.removeSC(name).replace(" ", "").toLowerCase();
         this.start_location = start_location;
-        plugin.events.put(name.toLowerCase(), this);
+        System.out.println(this.alias);
+        plugin.events.put(this.alias, this);
     }
 
 
@@ -73,7 +76,10 @@ public class EventoObj {
         }
         this.plugin.playersevents.put(player, this);
         players.put(player, player.getLocation());
-        if (max_players > 0&&players.size()>=max_players){this.locked = true;}
+        if (max_players > 0&&players.size()>=max_players){
+            this.locked = true;
+            if (creator.isOnline()){chat.sendMessage("&cAVISO&7 - O evento foi trancado por estar cheio. mais players não poderão entrar, mesmo que players saiam do evento.", creator);}
+        }
         player.teleport(start_location);
         for(Player pp: players.keySet())
             chat.sendMessage("&a+ "+player.getDisplayName()+" entrou no evento", pp);
@@ -107,6 +113,7 @@ public class EventoObj {
             chat.sendMessage("&aO evento acabou! obrigado por participar :)", player);
             this.plugin.playersevents.remove(player);
         }
+        this.plugin.events.remove(alias);
         players.clear();
         banned.clear();
 
@@ -114,6 +121,12 @@ public class EventoObj {
     }
     public void ToggleLock(){
        this.locked = !this.locked;
+       if (creator.isOnline()){
+           if (this.locked)
+               chat.sendMessage("&cAVISO&7 - O evento foi trancado.", creator);
+           else
+             chat.sendMessage("&cAVISO&7 - O evento foi destrancado.", creator);
+       }
     }
     public void setWinner(Player player){
         EventWin eventWin = new EventWin(this, player);

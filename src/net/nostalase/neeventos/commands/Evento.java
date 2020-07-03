@@ -10,7 +10,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.entity.Player;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Evento implements CommandExecutor, TabCompleter {
@@ -48,9 +50,8 @@ public class Evento implements CommandExecutor, TabCompleter {
                 chat.sendMessage("&cUso correto: /" + label + " create (nome do evento)", player);
                 return false;
             }
-            EventoObj evento = new EventoObj(this.plugin, player, player.getLocation(), args[1]);
-            evento.name = args[1];
-            evento.creator = player;
+            List<String> lisa =  new ArrayList<>(Arrays.asList(args));
+            EventoObj evento = new EventoObj(this.plugin, player, player.getLocation(), String.join(" ", lisa.subList(1, args.length)));
             chat.sendMessage("Evento criado", player);
             return true;
         } else if (this.plugin.events.containsKey(args[0].toLowerCase())) {//Dealing with an real event
